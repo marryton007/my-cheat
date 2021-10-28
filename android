@@ -1,0 +1,21 @@
+---
+tags: [android, adb]
+---
+# enter system setting
+adb shell am start -n com.android.settings/com.android.settings.Settings
+
+# monitor cpu frequency and temperature
+watch -n 3 "cat /sys/class/thermal/thermal_zone0/temp && cat /sys/devices/system/cpu/cpu[0-3]/cpufreq/scaling_cur_freq"
+
+# monitor kernel dmesg
+watch -n 2  "dmesg |grep usb"
+
+# get pcakge name by apk file
+aapt.exe  dump badging  D:\company\project\firefly\Application\Android_sdk_demo_V5.2\PrintDemoV5.2.apk
+
+# monitor input event
+getevent -l
+
+# list all installed packages
+adb shell pm list packages 
+

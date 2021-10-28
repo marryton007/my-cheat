@@ -1,0 +1,11 @@
+---
+tags: [android crash]
+---
+# android native crash log file 
+/data/tombstones/ 
+
+# last kernel log and Android log
+/sys/fs/pstore/console-ramoops-0
+/sys/fs/pstore/pmsg-ramoops-0
+
+

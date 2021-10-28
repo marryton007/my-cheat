@@ -1,0 +1,9 @@
+---
+tags: [icdiff diff patch]
+---
+# use icdiff with git
+git icdiff
+
+# config icdiff
+git config --global icdiff.options '--highlight --line-numbers'
+

@@ -1,0 +1,20 @@
+---
+tags: [man help bro tldr cheat]
+---
+# help with man
+man curl
+
+# help with bro
+bro curl
+
+# help with cheat, you shoud a cheat file under ~/.config/cheat/cheatsheets/[personal, community]
+cheat curl
+
+# help with tldr 
+tldr curl
+
+# help with cppman
+cppman vector::erase
+
+# help with cgasm
+cgasm add

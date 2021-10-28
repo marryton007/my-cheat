@@ -1,0 +1,5 @@
+---
+tags: [sshfs, mount]
+---
+# mount remote filesystem with sshfs
+sshfs jiaxi@192.168.60.252:/opt/sdk/rongping/android-20210804 /opt/sdk/rongping/android-20210804
