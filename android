@@ -19,3 +19,14 @@ getevent -l
 # list all installed packages
 adb shell pm list packages 
 
+# get top activity
+adb shell dumpsys activity top | grep ACTIVITY
+
+# access mem
+io -c 4 -l 4 0x
+
+# cross compile application for android
+CC=aarch64-linux-android30-clang  ./configure --host=aarch64-linux-android --enable-tools --prefix=/tmp/gpio
+
+# cross make kernel module
+make ARCH=arm64 CC=aarch64-linux-android30-clang CROSS_COMPILE=aarch64-linux-android-
