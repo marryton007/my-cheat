@@ -30,3 +30,9 @@ CC=aarch64-linux-android30-clang  ./configure --host=aarch64-linux-android --ena
 
 # cross make kernel module
 make ARCH=arm64 CC=aarch64-linux-android30-clang CROSS_COMPILE=aarch64-linux-android-
+
+# upload bugly so symbol information
+java -jar buglyqq-upload-symbol.jar -appid xxx -appkey xxx  -bundleid xcg.ehomepoct.io.zzcapp -version 1.2.4 -platform Android -inputSymbol D:\code\app\ehome\ehdriver\hardware\build\intermediates\cmake\debug\obj\armeabi-v7a
+
+# use ndk-stack trace crash
+adb logcat |ndk-stack.cmd -sym .\arm64-v8a\

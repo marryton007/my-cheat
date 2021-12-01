@@ -1,5 +1,5 @@
 ---
-tags: [aliyun maven mirror]
+tags: [aliyun, maven, mirror]
 ---
 # aliyun maven mirror for grade
 maven { url 'https://maven.aliyun.com/repository/public' }
