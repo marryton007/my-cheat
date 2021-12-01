@@ -1,0 +1,12 @@
+---
+tags: [readelf, ldd]
+---
+# list depends library by gdb
+ldd `which gdb`
+
+# get library path
+gcc -print-file-name 'libpthread.so.0'
+
+# list depends library with readelf
+readelf -d `which gdb`
+

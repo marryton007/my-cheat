@@ -1,0 +1,21 @@
+---
+tags: [ftrace, trace-cmd, kernelshark]
+---
+# list available trackers
+trace-cmd list -t
+
+# list available tracked functions 
+trace-cmd list -f
+
+# list available event
+trace-cmd list -e
+
+# trace special event on special process
+trace-cmd record -e regmap -P pid
+
+# trace special function
+trace-cmd record -l otp_mode_store -p function_graph
+
+# report result
+trace-cmd report trace.dat > trace.txt
+
