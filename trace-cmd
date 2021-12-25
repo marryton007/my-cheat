@@ -1,6 +1,9 @@
 ---
 tags: [ftrace, trace-cmd, kernelshark]
 ---
+# tracing directory
+/sys/kernel/debug/tracing
+
 # list available trackers
 trace-cmd list -t
 

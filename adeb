@@ -1,0 +1,24 @@
+---
+tags: [android, debain, adeb]
+---
+# download the file system package
+curl -O https://github.com/joelagnel/adeb/releases/download/v0.99h/androdeb-fs.tgz.zip
+
+# de-compress the package, and you'll get a file named androdeb-fs.tgz
+unzip androdeb-fs.tgz.zip
+
+# download adeb and setup environment
+git clone https://github.com/joelagnel/adeb.git
+cd adeb
+sudo ln -s $(pwd)/adeb /usr/bin/adeb
+export ADEB_REPO_URL="github.com/joelagnel/adeb/"
+
+# install adeb
+adeb prepare --archive ~/download/androdeb-fs.tgz
+
+# enter shell
+adeb shell
+
+# remove adeb
+adeb remove
+

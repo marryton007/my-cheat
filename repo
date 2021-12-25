@@ -1,0 +1,18 @@
+---
+tags: [git,repo,rockchip]
+---
+# init repo
+repo init -u ssh://git@www.rockchip.com.cn:2222/Android_R/manifests.git -m Android11.xml
+
+# repo mirror
+repo init -u ssh://git@www.rockchip.com.cn:2222/Android_R/manifests.git -m Android11.xml --mirror
+
+# repo chekcout from mirror
+repo init -u ssh://git@www.rockchip.com.cn:2222/Android_R/manifests.git -m Android11.xml \
+--reference=/opt/sdk/mirror/rockchip_aosp111 
+
+# repo sync
+repo sync
+
+# repo sync special module
+repo sync kernel u-boot

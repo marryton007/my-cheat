@@ -1,0 +1,6 @@
+---
+tags:[windows,powershell,cmdline]
+---
+# modify environment variables
+$env:PATH += ";D:\scoop\apps\android-sdk\4333796\ndk\21.4.7075529\toolchains\aarch64-linux-android-4.9\prebuilt\windows-x86_64\bin"
+

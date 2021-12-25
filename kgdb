@@ -1,0 +1,5 @@
+---
+tags: [kgdb, kernel, linux]
+---
+# kernel module compile or clean
+ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make M=drivers/cpufreq clean

@@ -10,8 +10,20 @@ watch -n 3 "cat /sys/class/thermal/thermal_zone0/temp && cat /sys/devices/system
 # monitor kernel dmesg
 watch -n 2  "dmesg |grep usb"
 
+# ehome setting app
+adb install -r -t EHomeSettings_V1.0_20211220_studio_debug.apk
+
 # get pcakge name by apk file
 aapt.exe  dump badging  D:\company\project\firefly\Application\Android_sdk_demo_V5.2\PrintDemoV5.2.apk
+
+# grep package name
+pm list package |grep package's name
+
+# grep activy with package
+dumpsys package | grep -i package's name | grep Activity
+
+# change lcd density
+adb shell wm density 320
 
 # monitor input event
 getevent -l
