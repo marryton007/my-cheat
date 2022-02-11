@@ -1,0 +1,9 @@
+---
+tags:[hash,md5,sha1]
+---
+# generate hash of file on windows
+certutil -hashfile <file> md5
+
+# generate hash of file in linux
+md5sum <file>
+sha1sum <file>

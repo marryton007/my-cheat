@@ -1,0 +1,7 @@
+---
+tags: [regex]
+---
+# exclude string
+app:^(?!.*?(?:mqtt)).*$
+^(?!.*?(?:bob|alice|kitty)).*$
+^((?!mqtt).)*$

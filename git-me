@@ -10,3 +10,6 @@ git push origin :develop-niusan
 
 # remote list
 git remote
+
+# update remote branches
+git remote update origin --prune

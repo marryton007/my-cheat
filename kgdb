@@ -3,3 +3,6 @@ tags: [kgdb, kernel, linux]
 ---
 # kernel module compile or clean
 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make M=drivers/cpufreq clean
+
+# compile android application
+ARCH=arm64 CC=aarch64-linux-android30-clang CROSS_COMPILE=aarch64-linux-android- make M=drivers/cpufreq clean

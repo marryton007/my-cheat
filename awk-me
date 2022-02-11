@@ -1,0 +1,6 @@
+---
+tags: [tag]
+---
+# condition print
+awk -F "," '{if (NF==6) print "39 00 04",$2,$4,$5,$6; else if (NF==4) print "15 00 02",$2,$4; else if (NF==3) print "05 00 01",$2; else print $0}' ili9881-1.txt > ili9881-3.txt
+awk -F "," '{if (NF==6) printf "39 00 04 %s %s %s %s\n",$2,$4,$5,$6; else if (NF==4) printf "15 00 02 %s %s\n",$2,$4; else if (NF==3) printf "05 00 01 %s\n",$2; else print $0}' ili9881-1.txt > ili9881-4.txt
