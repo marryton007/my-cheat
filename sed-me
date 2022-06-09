@@ -4,3 +4,4 @@ tags: [sed]
 # remove comments begin '//'
 sed -e 's@[[:space:]]*//.*@@g' ili9881.txt |sed -e '/^$/d' > ili9881-1.txt
 sed -e 's@[\t ]*//.*@@g' ili9881.txt |sed -e '/^$/d' > ili9881-1.txt
+sed -e 's@//.*@@g' ILI9881C.txt |sed -e 's@[\t ]*^M@@g' |sed '/^$/d'  > ILI9881C-2.txt
