@@ -1,0 +1,17 @@
+---
+tags: [linux, kernel, rk3568]
+---
+# otg mode setup
+cat /sys/devices/platform/fe8a0000.usb2-phy/otg_mode 
+
+# 设置usb otg 模式为device
+echo peripheral > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
+echo 2 > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
+
+# 设置usb otg模式为host
+echo host > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
+echo 1 > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
+
+# 默认为otg模式
+echo otg > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
+echo 0 > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode

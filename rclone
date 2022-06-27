@@ -1,0 +1,6 @@
+---
+tags: [rclone, storage, mount]
+---
+# mount sftp device
+rclone mount 252:/ x: --cache-dir D:\cache\252 --vfs-cache-mode writes &
+rclone mount 253:/ y: --cache-dir D:\cache\253 --vfs-cache-mode writes &
