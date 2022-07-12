@@ -4,6 +4,12 @@ tags: [android, adb]
 # enter system setting
 adb shell am start -n com.android.settings/com.android.settings.Settings
 
+# enter ehome setting 
+adb shell am start com.ehome.settings/.develop.DevelopActivity
+
+# set ehome environment
+adb shell setprop persist.vendor.ehome.enviroment qa
+
 # monitor cpu frequency and temperature
 watch -n 3 "cat /sys/class/thermal/thermal_zone0/temp && cat /sys/devices/system/cpu/cpu[0-3]/cpufreq/scaling_cur_freq"
 
