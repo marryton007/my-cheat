@@ -1,0 +1,8 @@
+---
+tags: [pacman,arch]
+---
+# find the package name by filename
+pacman -Fx filename
+
+# query package's information
+pacman -Si package
