@@ -13,6 +13,10 @@ adb shell setprop persist.vendor.ehome.enviroment qa
 # monitor cpu frequency and temperature
 watch -n 3 "cat /sys/class/thermal/thermal_zone0/temp && cat /sys/devices/system/cpu/cpu[0-3]/cpufreq/scaling_cur_freq"
 
+# delete system app
+pm uninstall 
+rm /system/vendor/app_dir
+
 # monitor kernel dmesg
 watch -n 2  "dmesg |grep usb"
 
@@ -66,3 +70,24 @@ java -jar buglyqq-upload-symbol.jar -appid xxx -appkey xxx  -bundleid xcg.ehomep
 
 # use ndk-stack trace crash
 adb logcat |ndk-stack.cmd -sym .\arm64-v8a\
+
+# generate compile_commands.json
+ninja -f out/combined-rk3568_ehome_ba200_a1.ninja -t compdb g.cc.cc > compile_commands_all.json
+jq '[.[]|select(.file | startswith("art"))]' compile_commands_all.json > compile_commands.json
+jq '[.[]|select(.file | startswith("art") or startswith("frameworks"))]' compile_commands_all.json > compile_commands-2.json
+jq '[.[]|select(.file | contains("external/wpa_supplicant_8"))]' compile_commands_all.json > compile_commands.json
+
+# 查看usb otg 当前模式
+cat /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
+
+# 设置usb otg 模式为device
+echo peripheral > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
+echo 2 > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
+
+# 设置usb otg模式为host
+echo host > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
+echo 1 > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
+
+# 默认为otg模式
+echo otg > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
+echo 0 > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode

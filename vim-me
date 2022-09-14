@@ -1,0 +1,5 @@
+---
+tags: [vim]
+---
+# delete lines match condition
+:g/<pattern>/d

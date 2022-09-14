@@ -5,3 +5,7 @@ tags: [shell, sed]
 sed -e 's@[[:space:]]*//.*@@g' ili9881.txt |sed -e '/^$/d' > ili9881-1.txt
 sed -e 's@[\t ]*//.*@@g' ili9881.txt |sed -e '/^$/d' > ili9881-1.txt
 sed -e 's@//.*@@g' ILI9881C.txt |sed -e 's@[\t ]*^M@@g' |sed '/^$/d'  > ILI9881C-2.txt
+
+# repace to upper/lower character
+sed -i s'/[a-z]/\u&/g' jd9365-orig.txt
+sed -i s'/[a-z]/\l&/g' jd9365-orig.txt

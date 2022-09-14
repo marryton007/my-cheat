@@ -7,3 +7,9 @@ awk -F "," '{if (NF==6) printf "39 00 04 %s %s %s %s\n",$2,$4,$5,$6; else if (NF
 
 # delete comment, grep multi keyword, extract field and condition print
 sed -e 's@//.*@@g' lcd.txt |grep -E 'Generic|DCS|Delay' |awk -F "[()]" '{print $2}' |awk -F "," '{if (NF==2) print "15 00 02",$1,$2; else print "05 00 01",$1}' > lcd-out.txt
+
+# show sub-diretory and concat to a line
+echo `ls -l |awk '/^d/ {print $NF}'`
+
+# awk substr function
+grep ^{ jd9365.txt |awk -F "[{}]" '{print $2,$3}' |awk -F ',' '{print "15 00 02",substr($1,3,2), substr($3,4,2)}' > jd9365-result.txt
