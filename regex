@@ -5,3 +5,6 @@ tags: [regex]
 app:^(?!.*?(?:mqtt)).*$
 ^(?!.*?(?:bob|alice|kitty)).*$
 ^((?!mqtt).)*$
+
+# DDMS monitor logcat filter
+tag:^(?!(WifiNative|RTW|healthd|logd|AF::TrackHand))

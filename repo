@@ -16,3 +16,6 @@ repo sync
 
 # repo sync special module
 repo sync kernel u-boot
+
+# upgrade repo
+curl https://mirrors.tuna.tsinghua.edu.cn/git/git-repo -o repo

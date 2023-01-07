@@ -3,3 +3,6 @@ tags: [vim]
 ---
 # delete lines match condition
 :g/<pattern>/d
+
+#Type d/<word> and it will delete until that word.
+d/diff
