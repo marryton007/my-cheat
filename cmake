@@ -6,3 +6,6 @@ CMAKE_PREFIX_PATH
 
 # install directory
 CMAKE_INSTALL_PREFIX
+
+# compile_commands.json 
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON

@@ -1,0 +1,8 @@
+---
+tags: [cut,linux]
+---
+# get first 3 chars
+cut -c -3
+
+# get chars start at 4th
+cut -c 3-

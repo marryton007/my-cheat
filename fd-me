@@ -1,0 +1,5 @@
+---
+tag: [fd, find]
+---
+# find with regex 
+fd '.*/lesson-\d+/[a-z]+.(jpg|png)'

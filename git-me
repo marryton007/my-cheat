@@ -13,3 +13,10 @@ git remote
 
 # update remote branches
 git remote update origin --prune
+
+# add all untrack files to .gitignore
+git status --porcelain | grep '^??' | cut -c4- >> .gitignore
+
+# list all untrack files
+git status --porcelain | grep "^?? " | sed -e 's/^[?]* //'
+git status --porcelain | grep "^?? " | cut -c4-

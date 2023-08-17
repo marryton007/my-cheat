@@ -1,0 +1,16 @@
+---
+tags: [ld, link, mold]
+---
+# use mold with clang
+-fuse-ld=mold
+
+# use mold with gcc > 12.1.0
+-fuse-ld=mold
+
+# use mold with gcc < 12.1.0
+-B/usr/local/libexec/mold
+
+# use mold in .cargo/config.toml
+[target.x86_64-unknown-linux-gnu]
+linker = "clang"
+rustflags = ["-C", "link-arg=-fuse-ld=/usr/local/bin/mold"]

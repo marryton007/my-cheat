@@ -1,0 +1,6 @@
+---
+tags: [tr,shell]
+---
+# replace space with newline
+cat test.txt | tr -s "\r\n" " "
+cat test.txt | tr -s "\n" " "

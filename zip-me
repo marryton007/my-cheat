@@ -1,0 +1,5 @@
+---
+tags: [zip,exclude]
+---
+# exclude .git directory
+zip -r share.zip ./share -x '*.git*'
