@@ -20,3 +20,6 @@ git status --porcelain | grep '^??' | cut -c4- >> .gitignore
 # list all untrack files
 git status --porcelain | grep "^?? " | sed -e 's/^[?]* //'
 git status --porcelain | grep "^?? " | cut -c4-
+
+# diff tool
+GIT_EXTERNAL_DIFF=difft git diff
