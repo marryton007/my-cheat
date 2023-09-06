@@ -91,3 +91,6 @@ echo 1 > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
 # 默认为otg模式
 echo otg > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
 echo 0 > /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
+
+# setup enable show point location
+adb shell settings put system show_touches 1 && adb shell settings put system pointer_location 1

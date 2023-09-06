@@ -1,0 +1,8 @@
+---
+tags: [rsync]
+---
+# common usage
+rsync -avz -e 'ssh' ~/.config/cheat/cheatsheets liujiaxi@192.168.60.253:~/.config/cheat
+
+# resume last break
+rsync -partial -z -e 'ssh -p 22' linuxmi.cpp linuxmi@192.168.174.132:/home/linuxmi
