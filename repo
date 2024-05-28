@@ -19,3 +19,11 @@ repo sync kernel u-boot
 
 # upgrade repo
 curl https://mirrors.tuna.tsinghua.edu.cn/git/git-repo -o repo
+
+# rk356x sdk repo
+repo init --repo-url ssh://git@git.ehome.com:222/ljx/repo.git -u ssh://git@git.ehome.com:222/ljx/rockchip/platform/manifests.git -b linux -m rk356x_linux5.10_release.xml
+# rk356x sdk develop branch
+repo init --repo-url ssh://git@git.ehome.com:222/ljx/repo.git -u ssh://git@git.ehome.com:222/ljx/rockchip/platform/manifests.git -b linux -m rk356x_linux5.10.xml
+# rk356x sdk cdmo branch
+repo init --repo-url ssh://git@git.ehome.com:222/ljx/repo.git -u ssh://git@git.ehome.com:222/ljx/rockchip/platform/manifests.git -b linux -m rk356x_linux5.10_cdmo.xml 
+

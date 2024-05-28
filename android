@@ -77,7 +77,8 @@ jq '[.[]|select(.file | startswith("art"))]' compile_commands_all.json > compile
 jq '[.[]|select(.file | startswith("art") or startswith("frameworks"))]' compile_commands_all.json > compile_commands-2.json
 jq '[.[]|select(.file | contains("external/wpa_supplicant_8"))]' compile_commands_all.json > compile_commands.json
 jq '[.[]|select(.file | contains("external/wpa_supplicant_8") or contains("external/libfuse") or contains("providers/MediaProvider") or startswith("frameworks") or startswith("bootable") or startswith("hardware")  or startswith("system"))]' compile_commands_all.json > compile_commands.json
-
+# filter tests
+jq '[.[]|select(.file | contains("tests") or contains("/test/") |not)]' compile_commands.json > compile_commands-1.json
 # 查看usb otg 当前模式
 cat /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
 

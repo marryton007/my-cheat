@@ -21,5 +21,8 @@ git status --porcelain | grep '^??' | cut -c4- >> .gitignore
 git status --porcelain | grep "^?? " | sed -e 's/^[?]* //'
 git status --porcelain | grep "^?? " | cut -c4-
 
+# list untrack files end with '.orig' and delete them.
+git status --porcelain | grep '^??.*\.orig$' |cut -c4- |xargs rm
+
 # diff tool
 GIT_EXTERNAL_DIFF=difft git diff

@@ -30,3 +30,6 @@ rsync -avz --rsync-path="sudo rsync" user@<src> <dest>
 # Rsync only symlinks and preserve them as symlinks (dont follow them):
 find /path/to/files -type l -print | \
   rsync -av --files-from=- /path/to/files user@targethost:/dest_path
+
+# rsync .repo of AOSP
+rsync -avhW --no-compress --progress /mnt/NVME/ZhongQiu/RK3588_ROCKCHIP_ANDROID12.0_SDK/.repo .

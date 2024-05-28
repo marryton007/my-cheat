@@ -1,0 +1,6 @@
+---
+tags: [ninja]
+---
+
+# generate compile-commands.json
+ninja -C build -t compdb cxx cc > compile_commands.json
