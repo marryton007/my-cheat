@@ -26,3 +26,5 @@ git status --porcelain | grep '^??.*\.orig$' |cut -c4- |xargs rm
 
 # diff tool
 GIT_EXTERNAL_DIFF=difft git diff
+GIT_EXTERNAL_DIFF=difft git show HEAD --ext-diff
+GIT_EXTERNAL_DIFF=difft git log -p --ext-diff
