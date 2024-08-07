@@ -1,0 +1,24 @@
+---
+tags: [shell, xargs]
+---
+# To Find all file name ending with .pdf and remove them
+find -name *.pdf | xargs rm -rf
+
+# if file name contains spaces you should use this instead
+find -name *.pdf | xargs -I{} rm -rf '{}'
+
+# Will show every .pdf like:
+#	&toto.pdf=
+#	&titi.pdf=
+# -n1 => One file by one file. ( -n2 => 2 files by 2 files )
+
+find -name *.pdf | xargs -I{} -n1 echo '&{}='
+
+# If find returns no result, do not run rm
+# This option is a GNU extension.
+find -name "*.pdf" | xargs --no-run-if-empty rm
+
+# git format-patch 
+git log --oneline rk817_codec.c |head -14 |awk '{print $1,NR}' |xargs -n 2 bash -c 'git format-patch -1 --start-number $1 -o /tmp/jx/rk817 $0'
+# reverse order
+git log --oneline rk817_codec.c |head -14 |tac |awk '{print $1,NR}' |xargs -n 2 bash -c 'git format-patch -o /tmp/jx/rk817 -1 --start-number $1 $0'

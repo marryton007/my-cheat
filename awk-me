@@ -16,3 +16,10 @@ grep ^{ jd9365.txt |awk -F "[{}]" '{print $2,$3}' |awk -F ',' '{print "15 00 02"
 
 # .dts to .dtbo
 ls -l *.dts |awk '{print $NF}' |sort |sed -e 's/.dts/.dtbo\ \\/g'
+
+# find two consecutive lines that contains same keyword
+awk -v keyword="motor_thread_handle" 'NR==1 {if ($0 ~ keyword) prev=1; else prev=0} NR>1 {if ($0 ~ keyword && prev==1) print NR-1, NR ": " $0; prev=($0 ~ keyword)}' kernel.log
+
+# find consecutive duplicate lines
+awk 'NR==1 {prev=$0} NR>1 {if ($0==prev) print "Duplicate lines found:" NR-1, NR; prev=$0}' yourfile.txt
+
