@@ -1,0 +1,11 @@
+---
+tags: [ffmpeg]
+---
+// ffmpeg 分辨率缩放
+ffmpeg.exe -i .\Video-最新版.mp4  -vf scale=1280:720 output.mp4
+
+// 将视频转成照片流，指定像素格式
+ffmpeg.exe -i .\output.mp4 -r 25 -pix_fmt bgra  frames%05d.png
+
+// 转换视频格式
+ffmpeg.exe -i xx.mp4  out.ts

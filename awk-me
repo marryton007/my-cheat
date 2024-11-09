@@ -23,3 +23,36 @@ awk -v keyword="motor_thread_handle" 'NR==1 {if ($0 ~ keyword) prev=1; else prev
 # find consecutive duplicate lines
 awk 'NR==1 {prev=$0} NR>1 {if ($0==prev) print "Duplicate lines found:" NR-1, NR; prev=$0}' yourfile.txt
 
+# 文件中以每3行为一组，每组中每一行分别提取出一个3位数字，统计所有组中所有组合的数量
+# 将文件中的内容以每三行一组进行处理。
+# 从每行提取一个三位数字。
+# 记录每组三位数字的组合，并统计所有组合的数量。
+awk '
+{
+    # 假设文件中的三位数字可能出现在任意位置，用正则匹配三位数字
+    match($0, /[0-9]{3}/, arr)
+    group[NR % 3] = arr[0]  # NR % 3 分别将每组三行存储在 group[0], group[1], group[2] 中
+    
+    # 处理每组三行后的操作
+    if (NR % 3 == 0) {
+        # 组合成唯一的标识，例如 "123-456-789" 的格式
+        combo = group[1] "-" group[2] "-" group[0]
+        count[combo]++  # 记录每种组合的数量
+    }
+}
+END {
+    # 输出每种组合的数量
+    for (combo in count) {
+        print combo ": " count[combo]
+    }
+}
+' input.txt
+
+# 删除dmesg.log开头的[]及其内容
+# ^：匹配行首。
+# \[ 和 \]：匹配中括号字符 [ 和 ]。
+# [^]]*：匹配 [ 和 ] 之间的任意字符，直到遇到第一个 ]。
+# //：将匹配的部分替换为空字符串，从而删除行首的 [] 及其中内容。
+sed 's/^\[[^]]*\] //' dmesg.log
+
+
