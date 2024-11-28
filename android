@@ -76,9 +76,9 @@ ninja -f out/combined-rk3568_ehome_ba200_a1.ninja -t compdb g.cc.cc > compile_co
 jq '[.[]|select(.file | startswith("art"))]' compile_commands_all.json > compile_commands.json
 jq '[.[]|select(.file | startswith("art") or startswith("frameworks"))]' compile_commands_all.json > compile_commands-2.json
 jq '[.[]|select(.file | contains("external/wpa_supplicant_8"))]' compile_commands_all.json > compile_commands.json
-jq '[.[]|select(.file | contains("external/wpa_supplicant_8") or contains("external/camera_engine_rkaiq") or contains("external/libfuse") or contains("providers/MediaProvider") or startswith("frameworks") or startswith("bootable") or startswith("hardware")  or startswith("system") or startswith("bionic"))]' compile_commands_all.json > compile_commands.json
+jq '[.[]|select(.file | contains("external/wpa_supplicant_8") or contains("external/camera_engine_rkaiq") or contains("external/libfuse") or contains("providers/MediaProvider") or startswith("frameworks") or startswith("bootable") or startswith("hardware")  or startswith("system") or startswith("bionic"))]' compile_commands_all.json > compile_commands_1.json
 # filter tests
-jq '[.[]|select(.file | contains("tests") or contains("/test/") or contains("_test") |not)]' compile_commands.json > compile_commands-1.json
+jq '[.[]|select(.file | contains("tests") or contains("/test/") or contains("_test") |not)]' compile_commands_1.json > compile_commands.json
 # 查看usb otg 当前模式
 cat /sys/devices/platform/fe8a0000.usb2-phy/otg_mode
 
