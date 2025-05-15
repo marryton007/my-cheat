@@ -27,3 +27,17 @@ repo init --repo-url ssh://git@git.ehome.com:222/ljx/repo.git -u ssh://git@git.e
 # rk356x sdk cdmo branch
 repo init --repo-url ssh://git@git.ehome.com:222/ljx/repo.git -u ssh://git@git.ehome.com:222/ljx/rockchip/platform/manifests.git -b linux -m rk356x_linux5.10_cdmo.xml 
 
+# add remote 
+repo forall -c '
+    NAME=$(grep projectname .git/config | cut -d'=' -f2 |xargs)
+    URL="ssh://git@192.168.60.253/rk356x/${NAME}"
+    git remote add ups "$URL"
+'
+
+# git push
+repo forall -pv -c '
+    UBR=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+    RE=$(echo ${UBR} |cut -d'/' -f1)
+    BR=$(echo ${UBR} |cut -d'/' -f2-)
+    git push ${RE} HEAD:${BR} 
+'

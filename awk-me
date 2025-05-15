@@ -27,26 +27,10 @@ awk 'NR==1 {prev=$0} NR>1 {if ($0==prev) print "Duplicate lines found:" NR-1, NR
 # 将文件中的内容以每三行一组进行处理。
 # 从每行提取一个三位数字。
 # 记录每组三位数字的组合，并统计所有组合的数量。
-awk '
-{
-    # 假设文件中的三位数字可能出现在任意位置，用正则匹配三位数字
-    match($0, /[0-9]{3}/, arr)
-    group[NR % 3] = arr[0]  # NR % 3 分别将每组三行存储在 group[0], group[1], group[2] 中
-    
+awk '{ match($0, /[0-9]{3}/, arr); group[NR % 3] = arr[0]; # NR % 3 分别将每组三行存储在 group[0], group[1], group[2] 中
     # 处理每组三行后的操作
-    if (NR % 3 == 0) {
-        # 组合成唯一的标识，例如 "123-456-789" 的格式
-        combo = group[1] "-" group[2] "-" group[0]
-        count[combo]++  # 记录每种组合的数量
-    }
-}
-END {
-    # 输出每种组合的数量
-    for (combo in count) {
-        print combo ": " count[combo]
-    }
-}
-' input.txt
+    if (NR % 3 == 0) { combo = group[1] "-" group[2] "-" group[0]; count[combo]++;  # 记录每种组合的数量 }
+} END { for (combo in count) { print combo ": " count[combo] } } ' input.txt
 
 # 删除dmesg.log开头的[]及其内容
 # ^：匹配行首。
@@ -55,4 +39,17 @@ END {
 # //：将匹配的部分替换为空字符串，从而删除行首的 [] 及其中内容。
 sed 's/^\[[^]]*\] //' dmesg.log
 
+# atrace categories
+atrace --list_categories |awk '{print "atrace_categories: \""$1"\""}'
 
+# 交换前2个字段，并将首个字段+1，按16进制显示，并按字段数量分别添加不现的前缀
+cat JD9165-2.txt | sed 's/[{ }]//g; s/,/ /g' | awk '{ tmp=$1; $1=$2; $2=tmp } 1' | awk '{num = $1 + 1; first_hex = sprintf("0x%x",num); $1 = first_hex; if (NF==2) prefix = "05 00 "; else if(NF==3) prefix = "15 00 "; else if(NF>3) prefix = "39 00 "; print prefix $0}' > JD9165-3.txt
+
+# 找出docker镜像名，名称和版本都none的镜像并删除
+docker images | awk '$1 ~ /none/, $2 ~ /none/ {print $3}' |xargs -i docker rmi {}
+
+# 删除所有容器
+docker ps -a |awk '{print $1}' |sed '1d' |xargs -i docker rm -f {}
+
+# 比较新旧项目文件，找出新加项目，并生成manifest文件片断
+diff -u project-{old,new}.txt |rg '^\+' |rg -v '\+\+' |sed  -e 's/\+//g' | awk -F ' : ' '{print "<project name=\""$2"\" path=\""$2"\" />"}'

@@ -1,3 +1,6 @@
+---
+tags: [rsync,shell]
+---
 # To copy files from remote to local, maintaining file properties and sym-links
 # (-a), zipping for faster transfer (-z), verbose (-v):
 rsync -avz host:file1 :file1 /dest/
@@ -33,3 +36,15 @@ find /path/to/files -type l -print | \
 
 # rsync .repo of AOSP
 rsync -avhW --no-compress --progress /mnt/NVME/ZhongQiu/RK3588_ROCKCHIP_ANDROID12.0_SDK/.repo .
+
+# exclude something
+rsync -av --exclude='.git' NfcTdaTestApp /mnt/Crucial/ljx/rk/rk3576/packages/apps/Nfc
+
+# ssh
+rsync -avz -e "ssh" git@192.168.60.253:/home/users/git/repositories/an12 .
+
+# common usage
+rsync -avz -e 'ssh' ~/.config/cheat/cheatsheets liujiaxi@192.168.60.253:~/.config/cheat
+
+# resume last break
+rsync -partial -z -e 'ssh -p 22' linuxmi.cpp linuxmi@192.168.174.132:/home/linuxmi
