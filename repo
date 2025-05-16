@@ -29,7 +29,7 @@ repo init --repo-url ssh://git@git.ehome.com:222/ljx/repo.git -u ssh://git@git.e
 
 # add remote 
 repo forall -c '
-    NAME=$(grep projectname .git/config | cut -d'=' -f2 |xargs)
+    NAME=$(grep projectname .git/config |head -n1 | cut -d'=' -f2 |xargs)
     URL="ssh://git@192.168.60.253/rk356x/${NAME}"
     git remote add ups "$URL"
 '
