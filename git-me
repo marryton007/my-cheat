@@ -28,3 +28,23 @@ git status --porcelain | grep '^??.*\.orig$' |cut -c4- |xargs rm
 GIT_EXTERNAL_DIFF=difft git diff
 GIT_EXTERNAL_DIFF=difft git show HEAD --ext-diff
 GIT_EXTERNAL_DIFF=difft git log -p --ext-diff
+
+# 找出所有.git目录，并打印其中的config文件中的url，即git仓库地址
+fdn -t d '\.git$' -E .ccls-cache -x rg url {}/config
+
+# 删除.git目录后，在原来仓库中根据文件hash寻找对应的commit
+git hash-object pl330.c  
+
+# 58fcd5c384f4f740fb746189651a90e3824e192f
+git rev-list --all pl330.c | while read commit; do
+  git ls-tree -r $commit | grep -q "58fcd5c384f4f740fb746189651a90e3824e192f" && echo "$commit"
+done | head -n1
+
+# 找出当前目录在某次提交中的tree hash
+git ls-tree -d 511e1a17fdc12d6ee0cf0b487e6f41f25d3ea48f -- .. |rg '\./$' |awk '{print $3}'
+f17ca69602de59036932af2bd37efe38531f9058
+
+# 搜索所有提交，并找出包含目录hash的commit
+git rev-list --all .. | while read cid; do
+  git ls-tree -d $cid -- .. | grep -q "f17ca69602de59036932af2bd37efe38531f9058" && echo "$cid"
+done | head -n1
