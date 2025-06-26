@@ -100,5 +100,10 @@ adb shell settings put system show_touches 1 && adb shell settings put system po
 # view android framework source code by android-studio
 aidegen frameworks hardware system packages -s -i s -p ~/download/android-studio
 
+# view android framework source code with clion
+aidegen frameworks/opt/net/wifi  hardware/interfaces/wifi/ -s -i c -p ~/download/clion-2025.1.1/
+# vscode
+aidegen frameworks/opt/net/wifi  hardware/interfaces/wifi/ -s -i v 
+
 # adb logcat filter tag:log_level S:silent
 adb logcat Camera2RawFragment:E *:S

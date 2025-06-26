@@ -48,3 +48,9 @@ f17ca69602de59036932af2bd37efe38531f9058
 git rev-list --all .. | while read cid; do
   git ls-tree -d $cid -- .. | grep -q "f17ca69602de59036932af2bd37efe38531f9058" && echo "$cid"
 done | head -n1
+
+# clone huge repo
+# --reference 引用现在目录
+# --filter=blob:none：只拉取树结构和提交历史，不拉文件内容，极大节省带宽和存储空间
+# --no-checkout：不自动执行 checkout，只有仓库结构
+git clone --reference linux --no-checkout --filter=blob:none https://github.com/gregkh/linux.git linux-stable

@@ -1,0 +1,105 @@
+---
+tags: [find,linux,shell]
+---
+# 终极清道夫：精准爆破 /var/log 下所有超过7天的 *.log 垃圾，快、准、狠！
+# -mtime +7: 时间锁定，专治7天前的“老顽固”！
+# -type f: 只搞文件，不碰文件夹，稳！
+# -name "*.log": 目标明确，只干日志文件，不误伤！
+find /var/log -type f -name "*.log" -mtime +7 -exec rm -f {} \;
+
+# 权限猎手出马：揪出 /home 下所有用户能执行但用户自己都不能读的怪胎文件！这玩意儿绝对有问题！
+# -perm /u=x: 文件的所有者（user）有执行(x)权限。/表示“包含”，有这个权限位就算。
+# ! -perm /u=r: 前面的!表示“取反”，就是找那些所有者没有读(r)权限的文件。能执行但不能读？鬼鬼祟祟！
+# -ls: 别光找，给我把详细信息（权限、所有者、大小、时间）像ls -l一样列出来！证据确凿！
+find /home -type f -perm /u=x ! -perm /u=r -ls
+
+# 空间大扫除：在 /backup 这个“胖子集中营”里，找出所有超过100MB的“巨无霸”，用gzip狠狠“瘦身”！
+# -size +100M: 目标明确：大于100MB的，都是“打击对象”！+表示“大于”，M是兆字节。想找1G以上的？换成+1G！
+# -exec gzip -v {} \;: 找到目标？直接上压缩！gzip -v一边压还一边告诉你它在压谁(-v 显示详情)。{}代表那个可怜的大文件。
+find /backup -type f -size +100M -exec gzip -v {} \;
+
+# 空格克星降临：管你文件名带空格、带括号、带奇葩符号，统统拿下！安全清理当前目录所有 .tmp 垃圾！
+# -print0: 这是find的大招！它不用空格或换行分隔文件名，而是用NULL字符 (\0)！任你文件名里有什么妖魔鬼怪（空格、换行、引号），NULL字符都能完美分割，绝不误伤！
+# | xargs -0: xargs接招！-0 告诉它：“兄弟，前面来的数据是用NULL分隔的，按这个规矩来！” 完美搭档！
+# rm -f: 安静地删除(-f force)，不废话。
+find . -name "*.tmp" -print0 | xargs -0 rm -f
+
+# 深度挖掘：在浩瀚的 /data 海洋里，精准捞出所有名字包含 project2023 或 project2024 的目录宝藏！
+# -regex: 开启正则表达式模式！比简单的-name强大N倍！
+# ".*/project202[34].*":
+# .*：匹配任意字符任意次（路径前面的部分）
+# /：匹配路径分隔符
+# project202[34]：匹配 project2023 或 project2024 ([34] 表示匹配3或4)
+# .*：匹配后面的任意字符（目录名可能还有后缀）
+find /data -type d -regex ".*/project202[34].*"
+
+# 空壳清理大师：把当前目录下（包括所有子目录）那些没用的空文件夹，统统扫进历史的垃圾桶！
+# -type d -empty: 目标明确：类型是目录(d)，并且是空的(empty)！一个文件都没有的，才够格被清理！
+# -exec rmdir {} \;: 对找到的空目录执行rmdir命令。注意：rmdir只能删空目录，配合-empty使用，安全无忧！
+find . -type d -empty -exec rmdir {} \;
+
+# 资产清单神器：把 /home/user/docs 里所有PDF的“身份证信息”（路径、大小、最后修改时间）整齐列出来！
+# %p: 文件的全路径 (Path)
+# %s: 文件大小，单位是字节 (Size)。想换算成MB？后面加个除号/1048576就行（1MB=1048576字节）！
+# %t: 文件最后修改时间 (Time)，默认格式（如 Mon Jun 24 15:30:00 2024）。想换格式？查手册man find看-printf格式符！
+# \n: 换行，一条记录一行，整整齐齐。
+find /home/user/docs -type f -name "*.pdf" -printf "%p %s %t\n"
+
+# 权限修复大队长：冲进 /opt/important_app，把所有 .conf 文件的权限改回安全的 644（用户读写，其他人只读）！
+# -exec chmod 644 {} \;: 对找到的每一个.conf文件，执行chmod 644命令。
+# 644代表：用户(u：owner)有读写(rw-)，组(g)和其他人(o)只有读(r--)。安全又规范！
+find /opt/important_app -type f -name "*.conf" -exec chmod 644 {} \;
+
+# 代码安检门：深度扫描 /src 下所有 Python 文件 (.py)，挖出所有写了 "password =" 这种可疑行径的地方，带上文件名和行号！
+# grep：文本搜索神器。
+# -H：打印匹配行所在的文件名。必须的！不然谁知道在哪？
+# -n：打印匹配行的行号。精准定位！
+# "password ="：要搜索的字符串（这里只是举例，实际按需修改）。
+#  {}：find找到的每一个.py文件。
+find /src -type f -name "*.py" -exec grep -Hn "password =" {} \;
+
+# 后悔药快照：把 /etc 下所有24小时内被修改过的 .conf 文件，火速复制一份到 /backup/etc_latest 保平安！
+# -mtime -1: 找修改时间在1天(24小时)内的文件。-号表示“以内”。
+# -exec cp -v {} /backup/etc_latest/ \;: 对找到的每个文件，执行cp -v复制到备份目录。
+# -v让你看到复制过程，心里踏实。注意备份目录(/backup/etc_latest/)要先存在！
+find /etc -type f -name "*.conf" -mtime -1 -exec cp -v {} /backup/etc_latest/ \;
+
+# 空间侦探：扫描 /var 下所有一级子目录，计算它们各自占了多少地盘，然后按占用空间从大到小排座次！
+# -maxdepth 1 -mindepth 1: 只查/var直接下一级的目录（-mindepth 1排除/var自身）。
+# -type d: 只找目录。
+# -exec du -sh {} \;: 对每个找到的目录，用du -sh计算并显示其总大小（-s summary总计, -h human-readable 人类可读格式，如K, M, G）。
+# | sort -hr: 把du的结果通过管道(|)送给sort排序。-h表示按人类可读的大小排（能识别K, M, G），-r表示从大到小(Reverse)。
+find /var -maxdepth 1 -mindepth 1 -type d -exec du -sh {} \; | sort -hr
+
+# 优雅浏览大师：列出当前目录所有文件（包括隐藏的），按名字排序，一页一页看，不卡壳！
+# -maxdepth 1: 只看当前目录，不递归。
+# -print0: 又是NULL分隔，安全处理奇葩文件名。
+# | sort -z: 用NULL分隔的方式对文件名排序。
+# | xargs -0 ls -ldU: 把排好序的文件名安全地喂给ls -ldU显示详情(-l长格式, -d目录本身, -U不排序，因为前面排好了)。
+# | less: 最终交给less分页器，上下翻页(j/k)，搜索(/)，退出(q)，优雅从容不卡顿！
+find . -maxdepth 1 -print0 | sort -z | xargs -0 ls -ldU | less
+
+# 用户遗产处理专员：找出 /home 下所有属于 olduser 的文件（UID 1001），详细列出，看看哪些能清理！
+# -user 1001: 按文件所有者查找。可以用用户名(olduser)，也可以用用户的数字UID(1001)，后者更可靠。
+# -ls: 先详细查看，确认目标！这一步非常重要！千万别直接删！
+# (可选) -exec rm -rf {} \;: 极其危险！ 确认绝对不需要这些文件后，才执行此命令删除。-r递归删目录，-f强制。
+find /home -user 1001 - ls
+# 确认无误后，批量删除（慎用！）：
+find /home -user 1001 -exec rm -rf {} \;
+
+# 时间神探：在 /etc 目录下，找出所有在 2025-06-24 14:30:00 之后被修改过的文件！
+# -newermt: 找修改时间(mtime)比指定时间戳("2024-06-24 14:30:00") 新的文件。还有-newerat(访问时间), -newerct(状态变更时间)。
+# -amin -120: 找访问时间(atime)在 120分钟之内 (-表示之内) 的文件。类似的有-cmin(状态变更时间), -mmin(修改时间)。
+find /etc -type f -newermt "2024-06-24 14:30:00"
+# 或者：找出所有在 120 分钟（2小时）内被访问过的文件！
+find /etc -type f -amin -120
+
+# 自动归档小助手：把 ~/Downloads 里的 jpg/png 图片挪到 ~/Pictures，把 pdf/docx 挪到 ~/Documents！
+# \( ... -o ... \): 逻辑组合！-o 表示 OR (或)。这里用来匹配多种扩展名。
+# -exec mv -v {} ~/Pictures/ \;: 找到后，用mv -v移动到目标目录。-v看移动过程。
+# 1. 确保目标目录存在
+mkdir -p ~/Pictures ~/Documents
+# 2. 移动图片
+find ~/Downloads -type f \( -name "*.jpg" -o -name "*.png" \) -exec mv -v {} ~/Pictures/ \;
+# 3. 移动文档
+find ~/Downloads -type f \( -name "*.pdf" -o -name "*.docx" \) -exec mv -v {} ~/Documents/ \;
